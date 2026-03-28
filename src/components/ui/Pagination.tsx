@@ -14,7 +14,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage <= 1}
-        className="p-2 rounded-lg bg-[#111111] border border-white/10 text-gray-400 hover:text-white hover:border-purple-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+        className="p-2 rounded-lg bg-white border border-gray-200 text-gray-600 hover:text-blue-600 hover:border-blue-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
       >
         <ChevronLeft className="w-5 h-5" />
       </button>
@@ -25,8 +25,8 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
           onClick={() => onPageChange(page)}
           className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${
             page === currentPage
-              ? 'bg-purple-600 text-white'
-              : 'bg-[#111111] border border-white/10 text-gray-400 hover:text-white hover:border-purple-500/30'
+              ? 'bg-blue-600 text-white'
+              : 'bg-white border border-gray-200 text-gray-600 hover:text-blue-600 hover:border-blue-500/30'
           }`}
         >
           {page}
@@ -36,7 +36,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage >= totalPages}
-        className="p-2 rounded-lg bg-[#111111] border border-white/10 text-gray-400 hover:text-white hover:border-purple-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+        className="p-2 rounded-lg bg-white border border-gray-200 text-gray-600 hover:text-blue-600 hover:border-blue-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
       >
         <ChevronRight className="w-5 h-5" />
       </button>

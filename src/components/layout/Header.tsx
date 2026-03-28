@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Newspaper } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -15,13 +15,16 @@ export default function Header() {
   const location = useLocation();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 text-white hover:text-purple-400 transition-colors">
-            <Newspaper className="w-6 h-6" />
-            <span className="text-xl font-bold tracking-tight">Lumina Press</span>
+          <Link to="/" className="flex items-center gap-2">
+            <img 
+              src="https://ingood.in/wp-content/uploads/2025/07/ingood-new-logo.png" 
+              alt="InGood Logo" 
+              className="h-10 w-auto"
+            />
           </Link>
 
           {/* Desktop Nav */}
@@ -30,8 +33,8 @@ export default function Header() {
               <Link
                 key={link.to}
                 to={link.to}
-                className={`text-sm font-medium transition-colors hover:text-purple-400 ${
-                  location.pathname === link.to ? 'text-purple-400' : 'text-gray-300'
+                className={`text-sm font-medium transition-colors hover:text-blue-600 ${
+                  location.pathname === link.to ? 'text-blue-600' : 'text-gray-700'
                 }`}
               >
                 {link.label}
@@ -39,7 +42,7 @@ export default function Header() {
             ))}
             <Link
               to="/admin"
-              className="text-sm font-medium px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white transition-colors"
+              className="text-sm font-medium px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors"
             >
               Admin
             </Link>
@@ -48,7 +51,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden text-white p-2"
+            className="md:hidden text-gray-700 p-2"
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -62,7 +65,7 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-black/95 border-b border-white/10"
+            className="md:hidden bg-white border-b border-gray-200"
           >
             <nav className="flex flex-col px-4 py-4 gap-3">
               {navLinks.map((link) => (
@@ -70,8 +73,8 @@ export default function Header() {
                   key={link.to}
                   to={link.to}
                   onClick={() => setMobileOpen(false)}
-                  className={`text-base font-medium py-2 transition-colors hover:text-purple-400 ${
-                    location.pathname === link.to ? 'text-purple-400' : 'text-gray-300'
+                  className={`text-base font-medium py-2 transition-colors hover:text-blue-600 ${
+                    location.pathname === link.to ? 'text-blue-600' : 'text-gray-700'
                   }`}
                 >
                   {link.label}
@@ -80,7 +83,7 @@ export default function Header() {
               <Link
                 to="/admin"
                 onClick={() => setMobileOpen(false)}
-                className="text-base font-medium py-2 text-purple-400"
+                className="text-base font-medium py-2 text-blue-600"
               >
                 Admin
               </Link>

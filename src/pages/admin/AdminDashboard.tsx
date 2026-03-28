@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Plus, Edit3, Trash2, Eye, LogOut, Newspaper,
+  Plus, Edit3, Trash2, Eye, LogOut,
   Save, X, ExternalLink
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -149,18 +149,22 @@ export default function AdminDashboard() {
   const showEditor = isCreating || editing;
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="border-b border-white/10 bg-[#0a0a0a]">
+      <header className="border-b border-gray-200 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2">
-              <Newspaper className="w-6 h-6 text-purple-400" />
-              <span className="text-lg font-bold text-white">Lumina Press Admin</span>
+              <img 
+                src="https://ingood.in/wp-content/uploads/2025/07/ingood-new-logo.png" 
+                alt="InGood Logo" 
+                className="h-8 w-auto"
+              />
+              <span className="text-lg font-bold text-black">InGood Admin</span>
             </div>
             <button
               onClick={handleSignOut}
-              className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
+              className="flex items-center gap-2 text-gray-600 hover:text-black transition-colors text-sm"
             >
               <LogOut className="w-4 h-4" /> Sign Out
             </button>
@@ -173,25 +177,25 @@ export default function AdminDashboard() {
           {/* Content Browser */}
           <div className={`flex-1 ${showEditor ? 'lg:w-1/2' : 'w-full'}`}>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">Content</h2>
+              <h2 className="text-2xl font-bold text-black">Content</h2>
               <button
                 onClick={handleNew}
-                className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
               >
                 <Plus className="w-4 h-4" /> New Content
               </button>
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-1 mb-6 bg-[#111111] rounded-lg p-1">
+            <div className="flex gap-1 mb-6 bg-gray-100 rounded-lg p-1">
               {tabs.map((tab) => (
                 <button
                   key={tab.value}
                   onClick={() => setActiveTab(tab.value)}
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                     activeTab === tab.value
-                      ? 'bg-purple-600 text-white'
-                      : 'text-gray-400 hover:text-white'
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-600 hover:text-black'
                   }`}
                 >
                   {tab.label}
@@ -203,9 +207,9 @@ export default function AdminDashboard() {
             {loading ? (
               <LoadingSpinner />
             ) : error ? (
-              <div className="text-red-400 text-center py-8">{error}</div>
+              <div className="text-red-600 text-center py-8">{error}</div>
             ) : filteredItems.length === 0 ? (
-              <div className="text-center py-16 bg-[#111111] rounded-xl border border-white/5">
+              <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
                 <p className="text-gray-500">No content found. Create your first piece!</p>
               </div>
             ) : (
@@ -217,22 +221,22 @@ export default function AdminDashboard() {
                     animate={{ opacity: 1 }}
                     className={`flex items-center justify-between p-4 rounded-lg border transition-colors cursor-pointer ${
                       editing?.id === item.id
-                        ? 'bg-purple-500/10 border-purple-500/30'
-                        : 'bg-[#111111] border-white/5 hover:border-white/10'
+                        ? 'bg-blue-50 border-blue-200'
+                        : 'bg-white border-gray-200 hover:border-gray-300'
                     }`}
                     onClick={() => handleEdit(item)}
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3">
-                        <h3 className="text-white font-medium truncate">{item.title}</h3>
+                        <h3 className="text-black font-medium truncate">{item.title}</h3>
                         <span className={`px-2 py-0.5 rounded text-xs font-medium ${
                           item.status === 'published'
-                            ? 'bg-green-500/20 text-green-400'
-                            : 'bg-yellow-500/20 text-yellow-400'
+                            ? 'bg-green-100 text-green-700'
+                            : 'bg-yellow-100 text-yellow-700'
                         }`}>
                           {item.status}
                         </span>
-                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-white/5 text-gray-400">
+                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600">
                           {item.type}
                         </span>
                       </div>
@@ -246,7 +250,7 @@ export default function AdminDashboard() {
                           e.stopPropagation();
                           handleEdit(item);
                         }}
-                        className="p-2 text-gray-400 hover:text-purple-400 transition-colors"
+                        className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
                       >
                         <Edit3 className="w-4 h-4" />
                       </button>
@@ -255,7 +259,7 @@ export default function AdminDashboard() {
                           e.stopPropagation();
                           handleDelete(item.id);
                         }}
-                        className="p-2 text-gray-400 hover:text-red-400 transition-colors"
+                        className="p-2 text-gray-400 hover:text-red-600 transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -275,12 +279,12 @@ export default function AdminDashboard() {
                 exit={{ opacity: 0, x: 20 }}
                 className="lg:w-1/2"
               >
-                <div className="bg-[#111111] border border-white/10 rounded-xl p-6 sticky top-24">
+                <div className="bg-white border border-gray-200 rounded-xl p-6 sticky top-24">
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-lg font-semibold text-white">
+                    <h3 className="text-lg font-semibold text-black">
                       {isCreating ? 'Create New Content' : 'Edit Content'}
                     </h3>
-                    <button onClick={handleCancel} className="text-gray-400 hover:text-white">
+                    <button onClick={handleCancel} className="text-gray-400 hover:text-black">
                       <X className="w-5 h-5" />
                     </button>
                   </div>
@@ -288,24 +292,24 @@ export default function AdminDashboard() {
                   <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
                     {/* Title */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-1">Title</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
                       <input
                         type="text"
                         value={form.title}
                         onChange={(e) => handleSlugFromTitle(e.target.value)}
-                        className="w-full px-3 py-2 bg-black border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50"
+                        className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-blue-500/50"
                         placeholder="Enter title..."
                       />
                     </div>
 
                     {/* Slug */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-1">Slug</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Slug</label>
                       <input
                         type="text"
                         value={form.custom_slug}
                         onChange={(e) => setForm((prev) => ({ ...prev, custom_slug: e.target.value }))}
-                        className="w-full px-3 py-2 bg-black border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50"
+                        className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-blue-500/50"
                         placeholder="custom-slug"
                       />
                     </div>
@@ -313,11 +317,11 @@ export default function AdminDashboard() {
                     {/* Type & Status */}
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-1">Type</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
                         <select
                           value={form.type}
                           onChange={(e) => setForm((prev) => ({ ...prev, type: e.target.value as ContentType }))}
-                          className="w-full px-3 py-2 bg-black border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50"
+                          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-blue-500/50"
                         >
                           <option value="blog">Blog</option>
                           <option value="press">Press</option>
@@ -325,11 +329,11 @@ export default function AdminDashboard() {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-1">Status</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
                         <select
                           value={form.status}
                           onChange={(e) => setForm((prev) => ({ ...prev, status: e.target.value as ContentStatus }))}
-                          className="w-full px-3 py-2 bg-black border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50"
+                          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-blue-500/50"
                         >
                           <option value="draft">Draft</option>
                           <option value="published">Published</option>
@@ -339,31 +343,31 @@ export default function AdminDashboard() {
 
                     {/* Image URL */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-1">Image URL</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
                       <input
                         type="text"
                         value={form.image || ''}
                         onChange={(e) => setForm((prev) => ({ ...prev, image: e.target.value }))}
-                        className="w-full px-3 py-2 bg-black border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50"
+                        className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-blue-500/50"
                         placeholder="https://..."
                       />
                     </div>
 
                     {/* Body */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-1">Body (HTML)</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Body (HTML)</label>
                       <textarea
                         value={form.body}
                         onChange={(e) => setForm((prev) => ({ ...prev, body: e.target.value }))}
                         rows={10}
-                        className="w-full px-3 py-2 bg-black border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50 font-mono text-sm"
+                        className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-blue-500/50 font-mono text-sm"
                         placeholder="<p>Your content here...</p>"
                       />
                     </div>
 
                     {/* Metadata */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-1">Description</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                       <input
                         type="text"
                         value={form.metadata?.description || ''}
@@ -373,24 +377,24 @@ export default function AdminDashboard() {
                             metadata: { ...prev.metadata, description: e.target.value },
                           }))
                         }
-                        className="w-full px-3 py-2 bg-black border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50"
+                        className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-blue-500/50"
                         placeholder="Brief description..."
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-1">Keywords (comma-separated)</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Keywords (comma-separated)</label>
                       <input
                         type="text"
                         value={keywordsInput}
                         onChange={(e) => setKeywordsInput(e.target.value)}
-                        className="w-full px-3 py-2 bg-black border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50"
+                        className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-blue-500/50"
                         placeholder="tech, ai, innovation"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-1">External URL (for press)</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">External URL (for press)</label>
                       <input
                         type="text"
                         value={form.metadata?.external_url || ''}
@@ -400,18 +404,18 @@ export default function AdminDashboard() {
                             metadata: { ...prev.metadata, external_url: e.target.value },
                           }))
                         }
-                        className="w-full px-3 py-2 bg-black border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500/50"
+                        className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-blue-500/50"
                         placeholder="https://..."
                       />
                     </div>
                   </div>
 
                   {/* Actions */}
-                  <div className="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+                  <div className="flex items-center gap-3 mt-6 pt-4 border-t border-gray-200">
                     <button
                       onClick={handleSave}
                       disabled={saving || !form.title || !form.custom_slug}
-                      className="flex items-center gap-2 px-6 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-600/50 text-white font-medium rounded-lg transition-colors"
+                      className="flex items-center gap-2 px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/50 text-white font-medium rounded-lg transition-colors"
                     >
                       {saving ? (
                         <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></div>
@@ -422,14 +426,14 @@ export default function AdminDashboard() {
                     </button>
                     <button
                       onClick={handleCancel}
-                      className="px-6 py-2 border border-white/10 text-gray-400 hover:text-white rounded-lg transition-colors"
+                      className="px-6 py-2 border border-gray-300 text-gray-600 hover:text-black rounded-lg transition-colors"
                     >
                       Cancel
                     </button>
                     {!isCreating && editing && (
                       <button
                         onClick={() => handleDelete(editing.id)}
-                        className="ml-auto flex items-center gap-2 px-4 py-2 text-red-400 hover:text-red-300 transition-colors"
+                        className="ml-auto flex items-center gap-2 px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
                       >
                         <Trash2 className="w-4 h-4" /> Delete
                       </button>

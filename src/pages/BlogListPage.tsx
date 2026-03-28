@@ -23,13 +23,13 @@ export default function BlogListPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="text-4xl font-bold text-white mb-2">Blog</h1>
-        <p className="text-gray-400 mb-8">Insights, stories, and perspectives from our team.</p>
+        <h1 className="text-4xl font-bold text-black mb-2">Blog</h1>
+        <p className="text-gray-600 mb-8">Insights, stories, and perspectives from our team.</p>
       </motion.div>
 
       {/* Search */}
       <div className="relative mb-10">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
         <input
           type="text"
           placeholder="Search articles..."
@@ -38,7 +38,7 @@ export default function BlogListPage() {
             setSearch(e.target.value);
             setPage(1);
           }}
-          className="w-full pl-12 pr-4 py-3 bg-[#111111] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 transition-colors"
+          className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-blue-500/50 transition-colors"
         />
       </div>
 

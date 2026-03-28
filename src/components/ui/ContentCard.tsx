@@ -28,7 +28,7 @@ export default function ContentCard({ content, basePath }: ContentCardProps) {
     >
       <Link
         to={`${basePath}/${content.custom_slug}`}
-        className="block group rounded-xl overflow-hidden bg-[#111111] border border-white/5 hover:border-purple-500/30 transition-all duration-300"
+        className="block group rounded-xl overflow-hidden bg-white border border-gray-200 hover:border-blue-500/30 transition-all duration-300 shadow-sm hover:shadow-md"
       >
         {content.image && (
           <div className="aspect-video overflow-hidden">
@@ -44,13 +44,13 @@ export default function ContentCard({ content, basePath }: ContentCardProps) {
             <Calendar className="w-4 h-4" />
             <span>{date}</span>
           </div>
-          <h3 className="text-lg font-semibold text-white group-hover:text-purple-400 transition-colors mb-2">
+          <h3 className="text-lg font-semibold text-black group-hover:text-blue-600 transition-colors mb-2">
             {content.title}
           </h3>
           {excerpt && (
-            <p className="text-gray-400 text-sm leading-relaxed mb-4">{excerpt}</p>
+            <p className="text-gray-600 text-sm leading-relaxed mb-4">{excerpt}</p>
           )}
-          <div className="flex items-center gap-1 text-purple-400 text-sm font-medium">
+          <div className="flex items-center gap-1 text-blue-600 text-sm font-medium">
             Read more <ArrowRight className="w-4 h-4" />
           </div>
         </div>
