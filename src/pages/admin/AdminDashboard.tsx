@@ -184,6 +184,19 @@ export default function AdminDashboard() {
     setForm((prev) => ({ ...prev, title, custom_slug: slug }));
   };
 
+  const getViewUrl = (item: Content): string => {
+    switch (item.type) {
+      case 'blog':
+        return `/blog/${item.custom_slug}`;
+      case 'press':
+        return `/press/${item.custom_slug}`;
+      case 'page':
+        return `/${item.custom_slug}`;
+      default:
+        return `/${item.custom_slug}`;
+    }
+  };
+
   const filteredItems = items;
 
   const showEditor = isCreating || editing;
@@ -288,9 +301,20 @@ export default function AdminDashboard() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
+                          window.open(getViewUrl(item), '_blank');
+                        }}
+                        className="p-2 text-gray-400 hover:text-green-600 transition-colors"
+                        title="View Page"
+                      >
+                        <Eye className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
                           handleEdit(item);
                         }}
                         className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
+                        title="Edit"
                       >
                         <Edit3 className="w-4 h-4" />
                       </button>
@@ -300,6 +324,7 @@ export default function AdminDashboard() {
                           handleDelete(item.id);
                         }}
                         className="p-2 text-gray-400 hover:text-red-600 transition-colors"
+                        title="Delete"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>

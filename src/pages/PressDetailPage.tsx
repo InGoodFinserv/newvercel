@@ -1,4 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, ExternalLink, Tag } from 'lucide-react';
 import { useContent } from '../hooks/useContent';
@@ -7,6 +8,54 @@ import LoadingSpinner from '../components/ui/LoadingSpinner';
 export default function PressDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const { content, loading, error } = useContent(slug!, 'press');
+
+  useEffect(() => {
+    if (content) {
+      // Update document title
+      document.title = content.metadata?.meta_title || content.title;
+      
+      // Update meta description
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', content.metadata?.meta_description || content.metadata?.description || '');
+      }
+      
+      // Update meta keywords
+      const metaKeywords = document.querySelector('meta[name="keywords"]');
+      if (metaKeywords && content.metadata?.meta_tags) {
+        metaKeywords.setAttribute('content', content.metadata.meta_tags.join(', '));
+      }
+      
+      // Update Open Graph tags
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) {
+        ogTitle.setAttribute('content', content.metadata?.meta_title || content.title);
+      }
+      
+      const ogDescription = document.querySelector('meta[property="og:description"]');
+      if (ogDescription) {
+        ogDescription.setAttribute('content', content.metadata?.meta_description || content.metadata?.description || '');
+      }
+      
+      const ogImage = document.querySelector('meta[property="og:image"]');
+      if (ogImage && content.image) {
+        ogImage.setAttribute('content', content.image);
+      }
+      
+      // Add schema if provided
+      if (content.metadata?.schema) {
+        const existingSchema = document.querySelector('script[type="application/ld+json"]');
+        if (existingSchema) {
+          existingSchema.remove();
+        }
+        
+        const schemaScript = document.createElement('script');
+        schemaScript.type = 'application/ld+json';
+        schemaScript.text = content.metadata.schema;
+        document.head.appendChild(schemaScript);
+      }
+    }
+  }, [content]);
 
   if (loading) return <LoadingSpinner />;
 
@@ -41,7 +90,7 @@ export default function PressDetailPage() {
           </div>
         )}
 
-        <h1 className="text-4xl sm:text-5xl font-bold text-black mb-4">{content.title}</h1>
+        <h1 className="text-4xl sm:text-5xl font-bold text-black mb-4">{content.metadata?.h1 || content.title}</h1>
 
         <div className="flex flex-wrap items-center gap-4 mb-8 text-gray-600 text-sm">
           <div className="flex items-center gap-1">
