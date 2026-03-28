@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+/* Custom dark cinematic theme */
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #000000;
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom utility classes */
+.text-muted { color: #9ca3af; }
+.bg-surface { background-color: #111111; }
+.bg-surface-hover { background-color: #1a1a1a; }
+.border-subtle { border-color: #222222; }
+.accent { color: #a78bfa; }
+.accent-bg { background-color: #a78bfa; }
+.accent-bg-hover { background-color: #8b5cf6; }
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #111111; }
+::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #555555; }
