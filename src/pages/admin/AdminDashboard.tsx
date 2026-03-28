@@ -25,7 +25,16 @@ const emptyForm: ContentInput = {
   custom_slug: '',
   image: '',
   body: '',
-  metadata: { description: '', keywords: [], external_url: '' },
+  metadata: { 
+    description: '', 
+    keywords: [], 
+    external_url: '',
+    h1: '',
+    meta_title: '',
+    meta_description: '',
+    meta_tags: [],
+    schema: ''
+  },
   status: 'draft',
 };
 
@@ -40,6 +49,7 @@ export default function AdminDashboard() {
   const [form, setForm] = useState<ContentInput>(emptyForm);
   const [saving, setSaving] = useState(false);
   const [keywordsInput, setKeywordsInput] = useState('');
+  const [metaTagsInput, setMetaTagsInput] = useState('');
 
   // Fetch content when tab changes
   useEffect(() => {
@@ -56,10 +66,20 @@ export default function AdminDashboard() {
         custom_slug: editing.custom_slug,
         image: editing.image || '',
         body: editing.body,
-        metadata: editing.metadata || { description: '', keywords: [], external_url: '' },
+        metadata: editing.metadata || { 
+          description: '', 
+          keywords: [], 
+          external_url: '',
+          h1: '',
+          meta_title: '',
+          meta_description: '',
+          meta_tags: [],
+          schema: ''
+        },
         status: editing.status,
       });
       setKeywordsInput(editing.metadata?.keywords?.join(', ') || '');
+      setMetaTagsInput(editing.metadata?.meta_tags?.join(', ') || '');
     }
   }, [editing]);
 
@@ -72,6 +92,7 @@ export default function AdminDashboard() {
     setEditing(null);
     setForm(emptyForm);
     setKeywordsInput('');
+    setMetaTagsInput('');
     setIsCreating(true);
   };
 
@@ -85,6 +106,7 @@ export default function AdminDashboard() {
     setIsCreating(false);
     setForm(emptyForm);
     setKeywordsInput('');
+    setMetaTagsInput('');
   };
 
   const handleSave = async () => {
@@ -95,12 +117,28 @@ export default function AdminDashboard() {
       .map((k) => k.trim())
       .filter(Boolean);
 
+    const metaTags = metaTagsInput
+      .split(',')
+      .map((t) => t.trim())
+      .filter(Boolean);
+
     const payload: ContentInput = {
       ...form,
       image: form.image || null,
       metadata: {
         ...form.metadata,
         keywords,
+        meta_tags: metaTags,
+        // Set default article schema if empty
+        schema: form.metadata?.schema || `{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "${form.title}",
+  "description": "${form.metadata?.meta_description || form.metadata?.description || ''}",
+  "image": "${form.image || ''}",
+  "datePublished": "${new Date().toISOString()}",
+  "dateModified": "${new Date().toISOString()}"
+}`
       },
     };
 
@@ -110,6 +148,7 @@ export default function AdminDashboard() {
         setIsCreating(false);
         setForm(emptyForm);
         setKeywordsInput('');
+        setMetaTagsInput('');
         fetchAll(activeTab === 'all' ? undefined : activeTab);
       }
     } else if (editing) {
@@ -118,6 +157,7 @@ export default function AdminDashboard() {
         setEditing(null);
         setForm(emptyForm);
         setKeywordsInput('');
+        setMetaTagsInput('');
         fetchAll(activeTab === 'all' ? undefined : activeTab);
       }
     }
@@ -363,6 +403,92 @@ export default function AdminDashboard() {
                         className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-blue-500/50 font-mono text-sm"
                         placeholder="<p>Your content here...</p>"
                       />
+                    </div>
+
+                    {/* SEO Section */}
+                    <div className="border-t border-gray-200 pt-4 mt-4">
+                      <h4 className="text-md font-semibold text-black mb-4">SEO Settings</h4>
+                      
+                      {/* H1 */}
+                      <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">H1 Heading</label>
+                        <input
+                          type="text"
+                          value={form.metadata?.h1 || ''}
+                          onChange={(e) =>
+                            setForm((prev) => ({
+                              ...prev,
+                              metadata: { ...prev.metadata, h1: e.target.value },
+                            }))
+                          }
+                          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-blue-500/50"
+                          placeholder="Main heading for SEO..."
+                        />
+                      </div>
+
+                      {/* Meta Title */}
+                      <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Meta Title</label>
+                        <input
+                          type="text"
+                          value={form.metadata?.meta_title || ''}
+                          onChange={(e) =>
+                            setForm((prev) => ({
+                              ...prev,
+                              metadata: { ...prev.metadata, meta_title: e.target.value },
+                            }))
+                          }
+                          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-blue-500/50"
+                          placeholder="Title for search engines..."
+                        />
+                      </div>
+
+                      {/* Meta Description */}
+                      <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Meta Description</label>
+                        <textarea
+                          value={form.metadata?.meta_description || ''}
+                          onChange={(e) =>
+                            setForm((prev) => ({
+                              ...prev,
+                              metadata: { ...prev.metadata, meta_description: e.target.value },
+                            }))
+                          }
+                          rows={3}
+                          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-blue-500/50"
+                          placeholder="Description for search engines..."
+                        />
+                      </div>
+
+                      {/* Meta Tags */}
+                      <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Meta Tags (comma-separated)</label>
+                        <input
+                          type="text"
+                          value={metaTagsInput}
+                          onChange={(e) => setMetaTagsInput(e.target.value)}
+                          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-blue-500/50"
+                          placeholder="tag1, tag2, tag3"
+                        />
+                      </div>
+
+                      {/* Schema */}
+                      <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Schema (JSON-LD)</label>
+                        <textarea
+                          value={form.metadata?.schema || ''}
+                          onChange={(e) =>
+                            setForm((prev) => ({
+                              ...prev,
+                              metadata: { ...prev.metadata, schema: e.target.value },
+                            }))
+                          }
+                          rows={6}
+                          className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-blue-500/50 font-mono text-sm"
+                          placeholder='{"@context": "https://schema.org", "@type": "Article", ...}'
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Leave blank to use default Article schema</p>
+                      </div>
                     </div>
 
                     {/* Metadata */}

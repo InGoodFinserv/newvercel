@@ -5,6 +5,12 @@ export interface ContentMetadata {
   description?: string;
   keywords?: string[];
   external_url?: string;
+  // SEO Fields
+  h1?: string;
+  meta_title?: string;
+  meta_description?: string;
+  meta_tags?: string[];
+  schema?: string;
   [key: string]: unknown;
 }
 
