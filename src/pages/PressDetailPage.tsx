@@ -42,6 +42,12 @@ export default function PressDetailPage() {
         ogImage.setAttribute('content', content.image);
       }
       
+      // Update canonical link
+      const canonicalLink = document.querySelector('link[rel="canonical"]');
+      if (canonicalLink) {
+        canonicalLink.setAttribute('href', `https://ingood.vercel.app/press/${slug}`);
+      }
+      
       // Add schema if provided
       if (content.metadata?.schema) {
         const existingSchema = document.querySelector('script[type="application/ld+json"]');
