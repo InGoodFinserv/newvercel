@@ -112,8 +112,7 @@ export default function BlogDetailPage() {
         </div>
 
         <div
-          className="prose prose-lg max-w-none prose-headings:text-black prose-p:text-gray-700 prose-a:text-blue-600 prose-strong:text-black"
-          dangerouslySetInnerHTML={{ __html: content.body }}
+          className="prose prose-lg max-w-none prose-headings:text-black prose-h2:text-3xl prose-h2:font-bold prose-h2:mt-8 prose-h2:mb-4 prose-p:text-gray-700 prose-a:text-blue-600 prose-strong:text-black"
         />
       </motion.div>
     </article>
